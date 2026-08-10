@@ -32,7 +32,7 @@ export function DataTable<TData, TValue>({
   })
 
   return (
-    <div className="w-full overflow-hidden rounded-md h-full">
+    <div className="relative w-full overflow-hidden">
       <Table>
         <TableHeader className="bg-[#262626]">
           {table.getHeaderGroups().map((headerGroup) => (
@@ -43,9 +43,9 @@ export function DataTable<TData, TValue>({
                     {header.isPlaceholder
                       ? null
                       : flexRender(
-                        header.column.columnDef.header,
-                        header.getContext()
-                      )}
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
                   </TableHead>
                 )
               })}

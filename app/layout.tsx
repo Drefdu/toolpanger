@@ -1,10 +1,10 @@
-import { Geist, Geist_Mono, Inter } from "next/font/google"
 import "./globals.css"
+import { Geist_Mono, Inter } from "next/font/google"
 import { ThemeProvider } from "@/components/theme-provider"
-import { cn } from "@/lib/utils";
-import AppSideBar from "@/components/appSidebar";
+import { cn } from "@/lib/utils"
+import AppSideBar from "@/components/appSidebar"
 
-const inter = Inter({ subsets: ['latin'], variable: '--font-sans' })
+const inter = Inter({ subsets: ["latin"], variable: "--font-sans" })
 
 const fontMono = Geist_Mono({
   subsets: ["latin"],
@@ -20,12 +20,19 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={cn("antialiased", fontMono.variable, "font-sans", inter.variable)}
+      className={cn(
+        "antialiased",
+        fontMono.variable,
+        "font-sans",
+        inter.variable
+      )}
     >
       <body>
         <ThemeProvider>
           <AppSideBar>
-            {children}
+            <div className="flex h-dvh flex-col overflow-hidden">
+              {children}
+            </div>
           </AppSideBar>
         </ThemeProvider>
       </body>

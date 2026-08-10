@@ -41,6 +41,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import Link from "next/link"
 
 export default function AppSideBar({
   children,
@@ -82,39 +83,15 @@ export default function AppSideBar({
           {/* Sidebar content */}
           <SidebarContent>
             <SidebarGroup>
-              <SidebarGroupLabel>
-                <a href="/workspaces">Workspaces</a>
-              </SidebarGroupLabel>
               <SidebarMenuItem>
                 <SidebarMenuButton>
-                  <a href="/#" className="flex flex-row gap-2">
+                  <Link
+                    href="/projects"
+                    className="flex h-full w-full flex-row gap-2"
+                  >
                     <LineSquiggle />
-                    <span className="text-[12px]">Grisi</span>
-                  </a>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton>
-                  <a href="/#" className="flex flex-row gap-2">
-                    <LineSquiggle />
-                    <span className="text-[12px]">3M</span>
-                  </a>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton>
-                  <a href="/#" className="flex flex-row gap-2">
-                    <LineSquiggle />
-                    <span className="text-[12px]">Presta Prenda</span>
-                  </a>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton>
-                  <a href="/#" className="flex flex-row gap-2">
-                    <LineSquiggle />
-                    <span className="text-[12px]">Mas</span>
-                  </a>
+                    <span className="text-[12px]">Projects</span>
+                  </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
             </SidebarGroup>
@@ -201,7 +178,7 @@ export default function AppSideBar({
             </SidebarMenu>
           </SidebarFooter>
         </Sidebar>
-        <div className="h-auto w-full overflow-hidden">{children}</div>
+        <div className="h-auto w-full">{children}</div>
       </SidebarProvider>
     </div>
   )

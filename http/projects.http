@@ -1,0 +1,25 @@
+@host = "localhost:3000"
+@protocol = "http"
+@project_id = "49d2a089-74cf-433c-ac87-10ba46acd90b"
+
+### Get links
+GET {{protocol}}://{{host}}/api/v1/projects/{{project_id}}/links
+Accept: application/json
+
+### Get projects
+GET {{protocol}}://{{host}}/api/v1/projects/
+Accept: application/json
+
+### Create link
+POST {{protocol}}://{{host}}/api/v1/projects/{{project_id}}/links
+Content-Type: application/json
+Accept: application/json
+
+{
+  "title": "example",
+  "slug": "example",
+  "description": "example",
+  "url": "https://image.png",
+  "image_url": "https://image.png",
+  "tags": ["example", "example 2"]
+}

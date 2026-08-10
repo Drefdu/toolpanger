@@ -1,7 +1,7 @@
 "use client"
 
-import CardGrid from "../components/Table/cardGrid"
-import CardList from "../components/Table/CardList"
+import CardGrid from "../components/table/cardGrid"
+import CardList from "../components/table/CardList"
 
 import { Button } from "@/components/ui/button"
 
@@ -20,10 +20,7 @@ import {
   InputGroupInput,
 } from "@/components/ui/input-group"
 
-import {
-  Plus,
-  Search,
-} from "lucide-react"
+import { Plus, Search } from "lucide-react"
 import { useState } from "react"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Field, FieldLabel } from "@/components/ui/field"
@@ -44,8 +41,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import HeaderPage from "@/components/HeaderPage";
-
+import HeaderPage from "@/components/header-page"
 
 export default function Page() {
   const [showStatusBar, setShowStatusBar] = useState(true)
@@ -54,13 +50,8 @@ export default function Page() {
 
   return (
     <>
-      <HeaderPage title="Enlaces" />
-      <Tabs defaultValue="overview" className="w-full flex-row h-[95%] px-5">
-        <div className="mt-7 mb-7 flex w-full flex-row justify-between gap-1">
-          <TabsList className="w-fit">
-            <TabsTrigger value="list">List</TabsTrigger>
-            <TabsTrigger value="grid">Grid</TabsTrigger>
-          </TabsList>
+      <HeaderPage title="Enlaces">
+        <div className="mt-7 mb-7 flex w-full flex-row items-center justify-end gap-1">
           <div className="flex flex-row gap-5">
             <InputGroup className="w-100">
               <InputGroupInput placeholder="Search..." />
@@ -105,13 +96,10 @@ export default function Page() {
             </Button>
           </div>
         </div>
-        <TabsContent value="list">
-          <CardList />
-        </TabsContent>
-        <TabsContent value="grid">
-          <CardGrid />
-        </TabsContent>
-        <div className="flex flex-row items-center justify-between pt-4 px-5">
+      </HeaderPage>
+      <div className="flex w-full flex-1 flex-col">
+        <CardList />
+        <div className="relative mt-auto flex flex-row items-center justify-between px-6 py-6">
           <p className="w-fittext-center text-sm text-muted-foreground">
             0 of 68 row(s) selected.
           </p>
@@ -163,7 +151,7 @@ export default function Page() {
             </Pagination>
           </div>
         </div>
-      </Tabs>
+      </div>
     </>
   )
 }
