@@ -30,11 +30,19 @@ export const linksTable = pgTable("links", {
   title: varchar("title", { length: 60 }).notNull(),
   description: varchar("description", { length: 120 }),
   url: varchar("url").notNull(),
+  // dns: varchar("dns", { length: 60 }),
+  // code: varchar("code", {}),
   imageUrl: varchar("image_url"),
   tags: text("tags").array(),
   project_id: uuid("project_id")
     .notNull()
     .references(() => projectsTable.id),
+})
+
+// What type of resources we can have ? MD, MDX and Links ?
+// PDF"s. too?
+export const resourcesTable = pgTable("resources", {
+  id: uuid("id"),
 })
 
 export const projectsTable = pgTable("projects", {

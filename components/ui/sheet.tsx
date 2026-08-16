@@ -2,10 +2,12 @@
 
 import * as React from "react"
 import { Dialog as SheetPrimitive } from "radix-ui"
+import { X } from "lucide-react"
+import { Cancel01Icon } from "@hugeicons/core-free-icons"
 
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
-// import { IconPlaceholder } from "@/app/(create)/components/icon-placeholder"
+import { IconPlaceholder } from "@/app/(create)/components/icon-placeholder"
 
 function Sheet({ ...props }: React.ComponentProps<typeof SheetPrimitive.Root>) {
   return <SheetPrimitive.Root data-slot="sheet" {...props} />
@@ -75,13 +77,10 @@ function SheetContent({
               className="absolute top-4 right-4"
               size="icon-sm"
             >
-              {/* <IconPlaceholder
-                lucide="XIcon"
-                tabler="IconX"
-                hugeicons="Cancel01Icon"
-                phosphor="XIcon"
-                remixicon="RiCloseLine"
-              /> */}
+              <IconPlaceholder
+                lucide={X}
+                hugeicons={Cancel01Icon}
+              />
               <span className="sr-only">Close</span>
             </Button>
           </SheetPrimitive.Close>

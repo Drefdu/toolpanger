@@ -1,8 +1,7 @@
 "use client"
 
 import { Field, FieldLabel } from "@/components/ui/field"
-import { ColumnDef } from "@tanstack/react-table"
-import { DataTable } from "@/components/data-table"
+import TableResources from "@/components/table-resources"
 import {
   Pagination,
   PaginationContent,
@@ -21,10 +20,17 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { useEffect, useState } from "react"
-import { UUID } from "node:crypto"
+import { Button } from "@/components/ui/button"
+import { useSortable } from "@dnd-kit/sortable"
+import { GripVertical } from "lucide-react"
+import { ColumnDef } from "@tanstack/react-table"
+import Link from "next/link"
+import { Checkbox } from "@/components/ui/checkbox"
+import { Badge } from "@/components/ui/badge"
+import { SquarePen, Copy } from "lucide-react"
 
 type Resources = {
-  id: UUID
+  id: string
   slug: string
   title: string
   description: string
@@ -34,18 +40,89 @@ type Resources = {
   project_id: string
 }
 
+function DragHandle({ id }: { id: string }) {
+  const { attributes, listeners } = useSortable({ id })
+  return (
+    <Button
+      {...attributes}
+      {...listeners}
+      variant="ghost"
+      size="icon"
+      className="size-7 text-muted-foreground hover:bg-transparent"
+    >
+      <GripVertical className="size-3 text-muted-foreground" />
+      <span className="sr-only">Drag to reorder</span>
+    </Button>
+  )
+}
+
+function capitalizeWords(str: string) {
+  if (!str) return ""
+  return str
+    .split(" ")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ")
+}
+
 export const columns: ColumnDef<Resources>[] = [
   {
-    accessorKey: "slug",
-    header: "Slug",
+    id: "title",
+    header: ({ table }) => (
+      <div className="flex items-start justify-start gap-2">
+        <Checkbox
+          checked={
+            table.getIsAllPageRowsSelected() ||
+            (table.getIsSomePageRowsSelected() && "indeterminate")
+          }
+          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+          aria-label="Select all"
+        />
+        <span>Title</span>
+      </div>
+    ),
+    cell: ({ row }) => (
+      <div className="flex items-start justify-start gap-2">
+        <Checkbox aria-label="Select one" />
+        <Link className="text-white" href={row.original.url} target="_blank">
+          <p className="text-white">{capitalizeWords(row.original.title)}</p>
+        </Link>
+      </div>
+    ),
   },
   {
-    accessorKey: "title",
-    header: "Title",
+    id: "tags",
+    header: ({ table }) => (
+      <div className="text-start">
+        <p>Tags</p>
+      </div>
+    ),
+    cell: ({ row }) => (
+      <div className="mx-auto flex flex-row gap-2 text-center">
+        {row.original.tags.map((tag) => (
+          <Badge key={tag} variant="outline">
+            {tag}
+          </Badge>
+        ))}
+      </div>
+    ),
   },
   {
     accessorKey: "description",
     header: "Description",
+  },
+  {
+    id: "edit",
+    header: "Actions",
+    cell: ({ row }) => (
+      <div className="mx-auto flex flex-row gap-2 text-center">
+        <Button variant="outline" size="icon" aria-label="Submit">
+          <SquarePen />
+        </Button>
+        <Button variant="outline" size="icon" aria-label="Submit">
+          <Copy />
+        </Button>
+      </div>
+    ),
   },
 ]
 
@@ -58,10 +135,8 @@ export function ListResources({ projectId }: { projectId: string }) {
     async function getResources() {
       setItems(null)
       const response = await fetch(
-        `/api/v1/projects/${projectId}/links?page${page}&pageSize${pageSize}`
-      ).then((response) => {
-        return response.json()
-      })
+        `/api/v1/projects/${projectId}/links?page=${page}&pageSize=${pageSize}`
+      ).then((response) => response.json())
       setItems(response.data)
     }
 
@@ -72,15 +147,11 @@ export function ListResources({ projectId }: { projectId: string }) {
     return <p>Cargando</p>
   }
 
-  if (items.length === 0) {
-    return <p>Sin datos que mostrar</p>
-  }
-
   return (
     <div className="flex w-full flex-1 flex-col">
-      <DataTable columns={columns} data={items} />
+      <TableResources columns={columns} data={items} />
       <div className="relative mt-auto flex flex-row items-center justify-between px-6 py-6">
-        <p className="w-fittext-center text-sm text-muted-foreground">
+        <p className="w-fit text-center text-sm text-muted-foreground">
           0 of 68 row(s) selected.
         </p>
         <div className="flex w-fit flex-row">
