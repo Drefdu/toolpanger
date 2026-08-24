@@ -84,10 +84,10 @@ export default function AppSideBar({
           <SidebarContent>
             <SidebarGroup>
               <SidebarMenuItem>
-                <SidebarMenuButton>
+                <SidebarMenuButton className="flex flex-row items-center justify-center p-0">
                   <Link
                     href="/projects"
-                    className="flex h-full w-full flex-row gap-2"
+                    className="flex h-full w-full flex-row items-center justify-start gap-2 pl-2"
                   >
                     <LineSquiggle />
                     <span className="text-[12px]">Projects</span>
@@ -100,34 +100,34 @@ export default function AppSideBar({
               <SidebarGroupLabel>Herramientas</SidebarGroupLabel>
               <SidebarMenuItem>
                 <SidebarMenuButton>
-                  <a href="/#" className="flex flex-row gap-2">
+                  <Link href="/#" className="flex flex-row gap-2">
                     <LineSquiggle />
                     <span className="text-[12px]">Ui</span>
-                  </a>
+                  </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton>
-                  <a href="/#" className="flex flex-row gap-2">
+                  <Link href="/#" className="flex flex-row gap-2">
                     <Lock />
                     <span className="text-[12px]">Ciberseguridad</span>
-                  </a>
+                  </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton>
-                  <a href="/#" className="flex flex-row gap-2">
+                  <Link href="/#" className="flex flex-row gap-2">
                     <Braces />
                     <span className="text-[12px]">Backend</span>
-                  </a>
+                  </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton>
-                  <a href="/#" className="flex flex-row gap-2">
+                  <Link href="/#" className="flex flex-row gap-2">
                     <Ellipsis />
                     <span className="text-[12px]">Otras</span>
-                  </a>
+                  </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
             </SidebarGroup>
@@ -136,34 +136,34 @@ export default function AppSideBar({
               <SidebarGroupLabel>Extras</SidebarGroupLabel>
               <SidebarMenuItem>
                 <SidebarMenuButton>
-                  <a href="/#" className="flex flex-row gap-2">
+                  <Link href="/#" className="flex flex-row gap-2">
                     <BookOpenCheck />
                     <span className="text-[12px]">Cursos</span>
-                  </a>
+                  </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton>
-                  <a href="/#" className="flex flex-row gap-2">
+                  <Link href="/#" className="flex flex-row gap-2">
                     <Puzzle />
                     <span className="text-[12px]">Extenciones</span>
-                  </a>
+                  </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton>
-                  <a href="/#" className="flex flex-row gap-2">
+                  <Link href="/#" className="flex flex-row gap-2">
                     <File />
                     <span className="text-[12px]">Documentación</span>
-                  </a>
+                  </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton>
-                  <a href="/#" className="flex flex-row gap-2">
+                  <Link href="/#" className="flex flex-row gap-2">
                     <FilePen />
                     <span className="text-[12px]">Tutoriales</span>
-                  </a>
+                  </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
             </SidebarGroup>

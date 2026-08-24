@@ -1,5 +1,6 @@
 import { SidebarTrigger } from "@/components/ui/sidebar"
 import { Separator } from "@/components/ui/separator"
+import HeaderBreadCrumb from "./header-breadcrumb"
 
 export default function HeaderPage({
   title,
@@ -13,10 +14,10 @@ export default function HeaderPage({
       <div className="full flex h-12 flex-row items-center">
         <SidebarTrigger size="lg" />
         <Separator orientation="vertical" />
-        <h1 className="ms-3 w-full text-2xl font-bold">{title}</h1>
+        <HeaderBreadCrumb />
       </div>
       <Separator />
-
+      {/* <h1 className="my-5 w-full px-6 text-2xl font-bold">{title}</h1> */}
       <div className="w-full px-6">
         {/* More information or page actions */}
         {children}
