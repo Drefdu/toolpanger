@@ -30,6 +30,7 @@ import {
   File,
   FilePen,
   Search,
+  SquareKanban,
 } from "lucide-react"
 
 import {
@@ -89,7 +90,7 @@ export default function AppSideBar({
                     href="/projects"
                     className="flex h-full w-full flex-row items-center justify-start gap-2 pl-2"
                   >
-                    <LineSquiggle />
+                    <SquareKanban />
                     <span className="text-[12px]">Projects</span>
                   </Link>
                 </SidebarMenuButton>

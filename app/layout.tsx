@@ -2,7 +2,7 @@ import "./globals.css"
 import { Geist_Mono, Inter } from "next/font/google"
 import { ThemeProvider } from "@/components/theme-provider"
 import { cn } from "@/lib/utils"
-import AppSideBar from "@/components/appSidebar"
+import AppSideBar from "@/components/app-sidebar"
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" })
 

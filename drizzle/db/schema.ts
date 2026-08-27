@@ -31,7 +31,7 @@ export const linksTable = pgTable("links", {
   description: varchar("description", { length: 120 }),
   url: varchar("url").notNull(),
   // dns: varchar("dns", { length: 60 }),
-  // code: varchar("code", {}),
+  // code: varchar("code", {}), // Github or bitbucket
   imageUrl: varchar("image_url"),
   tags: text("tags").array(),
   project_id: uuid("project_id")

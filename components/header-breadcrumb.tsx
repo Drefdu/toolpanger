@@ -1,6 +1,5 @@
 "use client"
 
-import { index } from "drizzle-orm/gel-core"
 import {
   Breadcrumb,
   BreadcrumbList,
@@ -35,6 +34,7 @@ export default function HeaderBreadCrumb() {
         .split(" ")
         .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
         .join(" ")
+        .replace("-", " ")
       breadMap.push({
         path: `${breadMap[index - 2]?.path}${breadItems[index / 2]}/`,
         title: title,

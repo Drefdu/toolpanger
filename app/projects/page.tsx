@@ -7,6 +7,7 @@ import {
 } from "@/components/ui/input-group"
 import { Button } from "@/components/ui/button"
 import { ListProjects } from "@/components/sections"
+import { AddProject } from "@/components/sections"
 
 export default function Projects() {
   return (
@@ -21,10 +22,7 @@ export default function Projects() {
                 <Search />
               </InputGroupAddon>
             </InputGroup>
-            <Button>
-              <span className="text-[12px]">New Tool</span>
-              <Plus />
-            </Button>
+            <AddProject />
           </div>
         </>
       </HeaderPage>
