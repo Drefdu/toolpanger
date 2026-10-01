@@ -16,18 +16,43 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
 import { Plus } from "lucide-react"
-import { Project } from "@/lib/types"
 import { useEffect, useState } from "react"
-
+import { useForm, SubmitHandler } from "react-hook-form"
+import { Project, ProjectSchema } from "@/lib/zod"
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Spinner } from "@/components/ui/spinner"
 
 export function AddProject() {
+  const [open, setOpen] = useState(false);
+  const [formError, setFormError] = useState<string | null>(null);
+  const {
+    register,
+    handleSubmit,
+    watch,
+    reset,
+    formState: { errors, isLoading, },
+  } = useForm<Project>({
+    resolver: zodResolver(ProjectSchema)
+  })
 
-  const onSubmit = (data) => {
-    console.log(data)
+  const onSubmit: SubmitHandler<Project> = async (formData) => {
+    const response = await fetch("/api/v1/projects", {
+      method: "POST",
+      body: JSON.stringify(formData)
+    })
+
+    if (response.status == 200) {
+      reset();
+      setOpen(false);
+    } else {
+      setFormError("Sorry, try it again later.")
+    }
   }
 
   return (
-    <Sheet>
+    <Sheet open={open} onOpenChange={(open) => {
+      setOpen(open)
+    }}>
       <SheetTrigger asChild>
         <Button>
           <span className="text-[12px]">New Project</span>
@@ -35,7 +60,7 @@ export function AddProject() {
         </Button>
       </SheetTrigger>
       <SheetContent>
-        <form>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <SheetHeader>
             <SheetTitle>New Project</SheetTitle>
             <SheetDescription>
@@ -47,7 +72,14 @@ export function AddProject() {
             <FieldGroup>
               <div className="grid gap-3">
                 <Label htmlFor="project-title">Title</Label>
-                <Input id="project-title" placeholder="example" />
+                <Input id="project-title" placeholder="example" {...register("title")} />
+                {errors.title && <p className="text-red-500">{errors.title?.message}</p>}
+              </div>
+
+              <div className="grid gap-3">
+                <Label htmlFor="project-title">Slug</Label>
+                <Input id="project-slug" placeholder="example" {...register("slug")} />
+                {errors.slug && <p className="text-red-500">{errors.slug?.message}</p>}
               </div>
 
               <Field>
@@ -58,12 +90,18 @@ export function AddProject() {
                   id="project-description"
                   placeholder="Description..."
                   className="resize-none"
+                  {...register("description")}
                 />
               </Field>
+              {errors.description && <p className="text-red-500">{errors.description?.message}</p>}
             </FieldGroup>
+            {formError && <p className="text-red-500">{formError}</p>}
           </div>
           <SheetFooter>
-            <Button type="submit">Save changes</Button>
+            <Button type="submit" disabled={isLoading}>
+              {isLoading && <Spinner data-icon="inline-start" />}
+              Save changes
+            </Button>
             <SheetClose asChild>
               <Button variant="outline">Close</Button>
             </SheetClose>

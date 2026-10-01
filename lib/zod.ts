@@ -26,5 +26,24 @@ export const LoginSchema = z.object({
   password: z.string().min(8, 'Password must have at least 8 characters')
 });
 
+export const ProjectSchema = z.object({
+  title: z
+    .string()
+    .min(5, "Title must have at least 5 charecters")
+    .max(50, "Title must not have more thant 50 characters"),
+  slug: z
+    .string()
+    .min(5, "Slug needs at least 5 charecters")
+    .max(50, "Slug must not have more thant 50 characters")
+    .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/)
+    .toLowerCase()
+    .trim()
+    .normalize(),
+  description: z
+    .string()
+    .max(200, "Description must not have more than 200 characters")
+})
+
+export type Project = z.infer<typeof ProjectSchema>
 export type Login = z.infer<typeof LoginSchema>
 export type User = z.infer<typeof UserSchema>
