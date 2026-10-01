@@ -1,19 +1,20 @@
 "use client"
 
 import * as React from "react"
-import { LucideIcon } from "lucide-react"
 import { HugeiconsIcon } from "@hugeicons/react"
+import * as LucideIcons from "lucide-react"
 
-type HugeiconsIconData = Array<Array<{ path: Record<string, string>; [key: string]: unknown }>>
+type LucideIconName = keyof typeof LucideIcons
 
-type IconPlaceholderProps = {
-  lucide?: LucideIcon
+type IconPlaceholderProps = React.ComponentPropsWithoutRef<"svg"> & {
+  lucide?: LucideIconName | React.ComponentType<{
+    className?: string
+    strokeWidth?: number
+  }>
   tabler?: string
-  hugeicons?: HugeiconsIconData
+  hugeicons?: unknown
   phosphor?: string
   remixicon?: string
-  className?: string
-  strokeWidth?: number
 }
 
 function IconPlaceholder({
@@ -26,26 +27,39 @@ function IconPlaceholder({
   strokeWidth = 2,
   ...props
 }: IconPlaceholderProps) {
+  const safeStrokeWidth =
+    typeof strokeWidth === "number" ? strokeWidth : Number(strokeWidth) || undefined
+
+  if (lucide) {
+    const LucideIconComponent = (
+      typeof lucide === "string"
+        ? (LucideIcons[lucide as LucideIconName] as React.ComponentType<{
+            className?: string
+            strokeWidth?: number
+          }>)
+        : (lucide as React.ComponentType<{
+            className?: string
+            strokeWidth?: number
+          }>)
+    )
+
+    if (LucideIconComponent) {
+      return (
+        <LucideIconComponent
+          className={className}
+          strokeWidth={safeStrokeWidth}
+          {...props}
+        />
+      )
+    }
+  }
+
   if (hugeicons) {
     return (
       <HugeiconsIcon
-        icon={hugeicons}
-        strokeWidth={strokeWidth}
+        icon={hugeicons as never}
         className={className}
-        {...props}
-      />
-    )
-  }
-
-  if (lucide) {
-    const LucideIconComponent = lucide as React.ComponentType<{
-      className?: string
-      strokeWidth?: number
-    }>
-    return (
-      <LucideIconComponent
-        className={className}
-        strokeWidth={strokeWidth}
+        strokeWidth={safeStrokeWidth}
         {...props}
       />
     )
@@ -56,7 +70,9 @@ function IconPlaceholder({
     if (tabler) missing.push(`tabler="${tabler}"`)
     if (phosphor) missing.push(`phosphor="${phosphor}"`)
     if (remixicon) missing.push(`remixicon="${remixicon}"`)
-    console.warn(`IconPlaceholder: The following icon libraries are not installed: ${missing.join(", ")}`)
+    console.warn(
+      `IconPlaceholder: The following icon libraries are not installed: ${missing.join(", ")}`
+    )
   }
 
   return null

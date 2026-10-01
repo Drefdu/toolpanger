@@ -5,16 +5,24 @@ import {
   varchar,
   timestamp,
   text,
+  boolean, 
+  index
 } from "drizzle-orm/pg-core"
 import { sql } from "drizzle-orm"
+import { relations } from "drizzle-orm";
+import { user } from "./auth-schema"
 
-export const usersTable = pgTable("users", {
-  id: uuid("id")
-    .default(sql`gen_random_uuid()`)
-    .primaryKey(),
-  name: varchar({ length: 255 }).notNull(),
-  email: varchar({ length: 255 }).notNull().unique(),
-})
+// export const usersTable = pgTable("users", {
+//   id: uuid("id")
+//     .default(sql`gen_random_uuid()`)
+//     .primaryKey()
+//     .unique(),
+//   given_name: varchar({ length: 255 }).notNull(),
+//   last_name: varchar({ length: 255 }).notNull(),
+//   phone: varchar({ length: 16 }).unique(),
+//   email: varchar({ length: 255 }).notNull().unique(),
+//   password: varchar({ length: 255 }).notNull(),
+// })
 
 export const linksTable = pgTable("links", {
   id: uuid("id")
@@ -58,9 +66,9 @@ export const projectsTable = pgTable("projects", {
     .notNull()
     .defaultNow(),
   description: varchar("description", { length: 120 }),
-  user_id: uuid("user_id")
+  user_id: text("user_id")
     .notNull()
-    .references(() => usersTable.id),
+    .references(() => user.id),
 })
 
 export const workspacesTable = pgTable("workspaces", {

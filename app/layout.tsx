@@ -2,7 +2,6 @@ import "./globals.css"
 import { Geist_Mono, Inter } from "next/font/google"
 import { ThemeProvider } from "@/components/theme-provider"
 import { cn } from "@/lib/utils"
-import AppSideBar from "@/components/app-sidebar"
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" })
 
@@ -29,11 +28,7 @@ export default function RootLayout({
     >
       <body>
         <ThemeProvider>
-          <AppSideBar>
-            <div className="flex h-dvh flex-col overflow-hidden">
-              {children}
-            </div>
-          </AppSideBar>
+          {children}
         </ThemeProvider>
       </body>
     </html>

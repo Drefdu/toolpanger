@@ -5,7 +5,8 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar"
-
+import { auth } from "@/lib/auth"
+import { headers } from "next/headers"
 import {
   Sidebar,
   SidebarContent,
@@ -44,9 +45,14 @@ import {
 } from "@/components/ui/dropdown-menu"
 import Link from "next/link"
 
-export default function AppSideBar({
+export default async function AppSideBar({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
+  const session = await auth.api.getSession({
+    headers: await headers()
+  })
+
+  console.log(session)
   return (
     <div className="relative flex min-h-screen w-full flex-row bg-[#0a0a0a]">
       <SidebarProvider>
@@ -58,7 +64,7 @@ export default function AppSideBar({
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <SidebarMenuButton>
-                      Organization Name
+                      { session?.user?.name }'s Organization
                       <ChevronDown className="ml-auto" />
                     </SidebarMenuButton>
                   </DropdownMenuTrigger>
