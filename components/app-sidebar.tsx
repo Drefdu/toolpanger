@@ -43,16 +43,11 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import Link from "next/link"
+import Link from "next/link"  
 
 export default async function AppSideBar({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
-  const session = await auth.api.getSession({
-    headers: await headers()
-  })
-
-  console.log(session)
   return (
     <div className="relative flex min-h-screen w-full flex-row bg-[#0a0a0a]">
       <SidebarProvider>
@@ -64,7 +59,7 @@ export default async function AppSideBar({
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <SidebarMenuButton>
-                      { session?.user?.name }'s Organization
+                      Organizations
                       <ChevronDown className="ml-auto" />
                     </SidebarMenuButton>
                   </DropdownMenuTrigger>
@@ -103,7 +98,7 @@ export default async function AppSideBar({
               </SidebarMenuItem>
             </SidebarGroup>
 
-            <SidebarGroup>
+            {/* <SidebarGroup>
               <SidebarGroupLabel>Herramientas</SidebarGroupLabel>
               <SidebarMenuItem>
                 <SidebarMenuButton>
@@ -173,7 +168,7 @@ export default async function AppSideBar({
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
-            </SidebarGroup>
+            </SidebarGroup> */}
           </SidebarContent>
 
           {/* Sidebar Footer */}

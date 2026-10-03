@@ -4,16 +4,14 @@ import { NextRequest, NextResponse } from "next/server"
 import { sql } from "drizzle-orm"
 import { auth } from "@/lib/auth"
 import { headers } from "next/headers"
+import { verifySession } from "@/lib/dal"
 
 export async function POST(request: NextRequest) {
   const { slug, title, description } = await request.json()
-  const session = await auth.api.getSession({
-    headers: await headers()
-  })
 
-  const user_id = session?.user?.id;
-
-  if (!user_id) {
+  const user = await verifySession()
+  
+  if (!user) {
     return NextResponse.json({
       code: "UNAUTHENTICATED",
       message: "You are not authenticated."
@@ -28,7 +26,7 @@ export async function POST(request: NextRequest) {
       title,
       slug,
       description,
-      user_id
+      user_id: user.id
     })
     .returning()
 
@@ -48,8 +46,6 @@ export async function GET() {
     .select()
     .from(projectsTable)
     .where(sql`${projectsTable.user_id} = ${session?.user?.id}`)
-
-
 
   return NextResponse.json(
     {

@@ -1,6 +1,6 @@
 import AppSideBar from "@/components/app-sidebar"
 
-export default function SiteLayout({
+export default async function SiteLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
