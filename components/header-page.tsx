@@ -6,7 +6,7 @@ export default function HeaderPage({
   title,
   children,
 }: {
-  title: string
+  title?: string
   children: React.ReactElement
 }) {
   return (

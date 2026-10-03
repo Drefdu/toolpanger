@@ -1,4 +1,3 @@
-export { ListProjects } from "./projects/list-projects"
 export { ListResources } from "./resources/list-resources"
 
 // Actions

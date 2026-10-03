@@ -26,7 +26,7 @@ export default function ProjectItem({
       <ItemContent>
         <Link href={`/projects/${slug}`} className="block w-full">
           <ItemTitle>{title}</ItemTitle>
-          <ItemDescription>{description || "No description available"}</ItemDescription>
+          <ItemDescription>{description}</ItemDescription>
         </Link>
       </ItemContent>
       <ItemActions>

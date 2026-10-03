@@ -1,3 +1,5 @@
+'use client';
+
 import HeaderPage from "@/components/header-page"
 import { Plus, Search } from "lucide-react"
 import {
@@ -5,19 +7,25 @@ import {
   InputGroupInput,
   InputGroupAddon,
 } from "@/components/ui/input-group"
-import { Button } from "@/components/ui/button"
-import { ListProjects } from "@/components/sections"
 import { AddProject } from "@/components/sections"
-import { auth } from "@/lib/auth"
-import { headers } from "next/headers"
+import { useState } from "react"
+import { type Project } from "@/lib/zod"
+import ProjectsList from "@/components/sections/projects/projects";
 
-export default async function Projects() {
-  const session = await auth.api.getSession({
-    headers: await headers()
-  })
+export default function Projects() {
+  const [projects, setProjects] = useState<Project[]>([])
+
+  const addProjectHandler = (project: Project) => {
+    setProjects([...projects, project])
+  }
+
+  const setProjectsHandler = (projects: Project[]) => {
+    setProjects(projects)
+  }
+
   return (
     <>
-      <HeaderPage title={`${session?.user.name}'s projects`}>
+      <HeaderPage>
         <>
           <h2 className="my-4"></h2>
           <div className="mb-5 flex w-full flex-row items-center justify-end gap-5">
@@ -27,11 +35,11 @@ export default async function Projects() {
                 <Search />
               </InputGroupAddon>
             </InputGroup>
-            <AddProject />
+            <AddProject projectsHandler={addProjectHandler} />
           </div>
         </>
       </HeaderPage>
-      <ListProjects />
+      <ProjectsList projects={projects} projectsHandler={setProjectsHandler} />
     </>
   )
 }

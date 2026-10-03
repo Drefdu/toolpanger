@@ -34,7 +34,7 @@ export async function POST(request: NextRequest) {
 
   return NextResponse.json(
     {
-      data: result,
+      data: result[0],
     },
     { status: 200 }
   )

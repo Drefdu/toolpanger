@@ -18,11 +18,20 @@ import { Button } from "@/components/ui/button"
 import { Plus } from "lucide-react"
 import { useEffect, useState } from "react"
 import { useForm, SubmitHandler } from "react-hook-form"
-import { Project, ProjectSchema } from "@/lib/zod"
+import { type Project, ProjectSchema } from "@/lib/zod"
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Spinner } from "@/components/ui/spinner"
+import { z } from "better-auth"
 
-export function AddProject() {
+const ProjectCreateSchema = ProjectSchema.pick({
+  title: true,
+  slug: true,
+  description: true
+});
+
+type ProjectCreateType = z.infer<typeof ProjectCreateSchema>
+
+export function AddProject({ projectsHandler }: { projectsHandler: (project: Project) => void }) {
   const [open, setOpen] = useState(false);
   const [formError, setFormError] = useState<string | null>(null);
   const {
@@ -31,22 +40,33 @@ export function AddProject() {
     watch,
     reset,
     formState: { errors, isLoading, },
-  } = useForm<Project>({
-    resolver: zodResolver(ProjectSchema)
+  } = useForm<ProjectCreateType>({
+    resolver: zodResolver(ProjectCreateSchema)
   })
 
-  const onSubmit: SubmitHandler<Project> = async (formData) => {
+  const onSubmit: SubmitHandler<ProjectCreateType> = async (formData) => {
     const response = await fetch("/api/v1/projects", {
       method: "POST",
       body: JSON.stringify(formData)
     })
 
-    if (response.status == 200) {
-      reset();
-      setOpen(false);
-    } else {
+    if (response.status != 200) {
       setFormError("Sorry, try it again later.")
+      return
     }
+
+    const body = await response.json()
+    console.log(body.data)
+    // const validSchema = ProjectSchema.safeParse(body.data)
+
+    // if (!validSchema.success) {
+    //   setFormError("Sorry, the provided.")
+    //   return
+    // }
+
+    reset();
+    projectsHandler(body.data)  
+    setOpen(false);
   }
 
   return (
