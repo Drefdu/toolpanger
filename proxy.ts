@@ -7,8 +7,8 @@ const protectedRoutes = ['/dashboard', '/projects']
 
 export async function proxy(request: NextRequest) {
     const path = request.nextUrl.pathname
-    const isProtectedRoute = protectedRoutes.includes(path)
-    const isPublicRoute = publicRoutes.includes(path)
+    const isProtectedRoute = protectedRoutes.includes(path) || protectedRoutes.some((route) => path.startsWith(route))
+    const isPublicRoute = publicRoutes.includes(path) || publicRoutes.some((route) => path.startsWith(route));
     
     const session = await auth.api.getSession({
         headers: await headers()

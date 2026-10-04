@@ -22,10 +22,9 @@ export default function HeaderBreadCrumb() {
   const breadItems = pathname == "/" ? ["/"] : pathname.substring(1).split("/")
   const breadCount = breadItems.length * 2 - 1
   const breadMap: (BreadItem | null)[] = []
-  console.log(breadMap)
+
   for (let index = 0; index < breadCount; index++) {
     if (breadMap[index - 1] == null) {
-      console.log(index)
       const title = breadItems[index / 2]
         .split(" ")
         .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
@@ -39,8 +38,6 @@ export default function HeaderBreadCrumb() {
       breadMap.push(null)
     }
   }
-
-  console.log(breadMap)
 
   return (
     <Breadcrumb className="ml-2">
