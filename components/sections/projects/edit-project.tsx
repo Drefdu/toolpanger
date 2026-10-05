@@ -31,8 +31,7 @@ const ProjectCreateSchema = ProjectSchema.pick({
 
 type ProjectCreateType = z.infer<typeof ProjectCreateSchema>
 
-export function AddProject({ projectsHandler }: { projectsHandler: (project: Project) => void }) {
-  const [open, setOpen] = useState(false);
+export function EditProject({ selectedProject, open, setOpen, fetchProjects }: { selectedProject: Project, open: boolean, setOpen: (open: boolean) => void, fetchProjects: (page: number, pageSize: number) => void }) {
   const [formError, setFormError] = useState<string | null>(null);
   const {
     register,
@@ -41,12 +40,22 @@ export function AddProject({ projectsHandler }: { projectsHandler: (project: Pro
     reset,
     formState: { errors, isLoading, },
   } = useForm<ProjectCreateType>({
-    resolver: zodResolver(ProjectCreateSchema)
+    resolver: zodResolver(ProjectCreateSchema),
+    defaultValues: {
+      title: selectedProject.title,
+      slug: selectedProject.slug,
+      description: selectedProject.description
+    },
+    values: {
+      title: selectedProject.title,
+      slug: selectedProject.slug,
+      description: selectedProject.description
+    }
   })
 
   const onSubmit: SubmitHandler<ProjectCreateType> = async (formData) => {
-    const response = await fetch("/api/v1/projects", {
-      method: "POST",
+    const response = await fetch(`/api/v1/projects/${selectedProject.id}`, {
+      method: "PUT",
       body: JSON.stringify(formData)
     })
 
@@ -56,15 +65,9 @@ export function AddProject({ projectsHandler }: { projectsHandler: (project: Pro
     }
 
     const body = await response.json()
-    // const validSchema = ProjectSchema.safeParse(body.data)
-
-    // if (!validSchema.success) {
-    //   setFormError("Sorry, the provided.")
-    //   return
-    // }
 
     reset();
-    projectsHandler(body.data)  
+    fetchProjects(1, 5)
     setOpen(false);
   }
 
@@ -72,18 +75,12 @@ export function AddProject({ projectsHandler }: { projectsHandler: (project: Pro
     <Sheet open={open} onOpenChange={(open) => {
       setOpen(open)
     }}>
-      <SheetTrigger asChild>
-        <Button>
-          <span className="text-[12px]">New Project</span>
-          <Plus />
-        </Button>
-      </SheetTrigger>
       <SheetContent>
         <form onSubmit={handleSubmit(onSubmit)}>
           <SheetHeader>
-            <SheetTitle>New Project</SheetTitle>
+            <SheetTitle>Edit Project</SheetTitle>
             <SheetDescription>
-              Create a new project. Click save when you&apos;re done.
+              Edit this project. Click save when you&apos;re done.
               you&apos;re done.
             </SheetDescription>
           </SheetHeader>

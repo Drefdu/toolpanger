@@ -1,0 +1,23 @@
+# Api
+
+## Projects
+
+GET /projects
+POST /projects
+GET /projects/:id
+PUT /projects/:id
+DELETE /projects/:id
+
+## Links
+
+GET /projects/:id/links
+POST /projects/:id/links
+GET /projects/:id/links/:id
+PUT /projects/:id/links/:id
+DELETE /projects/:id/links/:id
+
+## Tags
+
+## Workspaces
+
+## Resources

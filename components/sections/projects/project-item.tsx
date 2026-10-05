@@ -11,22 +11,21 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Item, ItemContent, ItemTitle, ItemDescription, ItemActions } from "@/components/ui/item"
 import { EllipsisVertical, Pencil, Trash } from "lucide-react"
+import { Project } from "@/lib/zod"
 
 export default function ProjectItem({
-  title,
-  slug,
-  description,
+  project,
+  projectHandler
 }: {
-  title: string
-  slug: string
-  description?: string
+  project: Project
+  projectHandler: (project: Project) => void;
 }) {
   return (
     <Item variant="outline">
       <ItemContent>
-        <Link href={`/projects/${slug}`} className="block w-full">
-          <ItemTitle>{title}</ItemTitle>
-          <ItemDescription>{description}</ItemDescription>
+        <Link href={`/projects/${project.slug}`} className="block w-full">
+          <ItemTitle>{project.title}</ItemTitle>
+          <ItemDescription>{project.description}</ItemDescription>
         </Link>
       </ItemContent>
       <ItemActions>
@@ -39,7 +38,7 @@ export default function ProjectItem({
           <DropdownMenuContent className="w-48" align="end">
             <DropdownMenuGroup>
               <DropdownMenuItem>
-                <Item size="xs" className="w-full p-2">
+                <Item size="xs" className="w-full p-2" onClick={() => projectHandler(project)}>
                   <ItemContent className="flex flex-row justify-between gap-0">
                     <ItemTitle>
                       <span>edit</span>

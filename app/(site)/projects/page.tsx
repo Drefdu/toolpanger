@@ -23,6 +23,12 @@ export default function Projects() {
     setProjects(projects)
   }
 
+  const fetchProjects = async (page: number, pageSize: number) => {
+    const response = await fetch(`/api/v1/projects?page=${page}&pageSize=${pageSize}`)
+    const data = await response.json()
+    setProjects(data.data || [])
+  }
+
   return (
     <>
       <HeaderPage>
@@ -39,7 +45,7 @@ export default function Projects() {
           </div>
         </>
       </HeaderPage>
-      <ProjectsList projects={projects} projectsHandler={setProjectsHandler} />
+      <ProjectsList projects={projects} fetchProjects={fetchProjects}  />
     </>
   )
 }
